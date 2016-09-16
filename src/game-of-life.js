@@ -1,3 +1,8 @@
+var baseStyle = {
+    backgroundColor: "rgb(50, 50, 50)",
+    color: "rgb(240, 240, 240)",
+};
+
 //parent component, renders board and controls and connects the two
 var GameOfLife = React.createClass({
     //default board and control state
@@ -62,7 +67,8 @@ var GameOfLife = React.createClass({
     render: function(){
         var style = {
             height: "100%",
-            width: "100%"
+            width: "100%",
+            backgroundColor: baseStyle.backgroundColor
         };
         return <div style={style}>
             <div
@@ -317,17 +323,17 @@ var FixedRatio = React.createClass({
 });
 var Cell = React.createClass({
     //lets Board know that cell has been clicked and gives it the cell index so it knows were the click was
-    handleClick: function(){
-        this.props.handleClick(this.props.index);
-    },
     render: function(){
+        //cells uses  an external stylesheet for performance
         var style = {
             backgroundColor: this.props.status === "alive" ? "white" : "black",
             height: this.props.height,
             width: this.props.width,
             display: "inline-block",
+            boxSizing: "border-box",
+            border: "1px solid " + baseStyle.backgroundColor
         };
-        return <div style={style} onClick={this.handleClick}/>
+        return <div className={"cell " +  "alive" ? "alive" : "dead"} style={style} onClick={this.handleClick}/>
     }
 });
 var Controls = React.createClass({
@@ -336,27 +342,33 @@ var Controls = React.createClass({
         var hPad = "5px"
         var inputWrapStyle = {
             display: "inline-block",
-            backgroundColor: "rgb(240, 240, 240)",
-            padding: vPad + " 0px 0px " + hPad,
+            padding: vPad + " " + hPad,
             margin: "4px 6px",
             textAlign: "center"
         };
         var elementStyle = {
             verticalAlign: "middle",
-            margin: "0px " + hPad + " " + vPad + " 0px",
+            margin: vPad + " " + hPad,
             display: "inline-block"
         };
-        var buttonStyle = Object.assign({
-            fontSize: "14px"
-        }, elementStyle);
+        var buttonStyle = Object.assign({}, elementStyle, {
+            fontSize: "16px",
+            backgroundColor: baseStyle.color,
+            color: baseStyle.backgroundColor,
+            border: "none",
+            cursor: "pointer",
+            padding: "4px 9px"
+        });
         var textInputStyle = Object.assign({
             border: "none",
             fontSize: "inherit",
             padding: vPad + " " + hPad,
-            textAlign: "center"
+            textAlign: "center",
+            color: baseStyle.backgroundColor,
+            backgroundColor: baseStyle.color
         }, elementStyle);
         var sliderStyle = Object.assign({
-            margin: "0px " + hPad + " " + vPad + " 0px"
+            margin: vPad + " " + hPad
         }, elementStyle);
         return <div style={{
                             position: "relative",
@@ -365,7 +377,8 @@ var Controls = React.createClass({
                             margin: "auto",
                             fontSize: "16px",
                             overflow: "auto",
-                            textAlign: "center"
+                            textAlign: "center",
+                            color: baseStyle.color
                         }}>
             <div style={inputWrapStyle}>
                 <label
@@ -396,8 +409,7 @@ var Controls = React.createClass({
             <div style={inputWrapStyle}>
                 <label style={elementStyle}
                     >Pause</label>
-                <input
-                    type="checkbox"
+                <Switch
                     style={elementStyle}
                     onChange={this.props.handleChange}
                     checked={this.props.pause}
@@ -464,6 +476,16 @@ var Controls = React.createClass({
         </div>
     }
 });
+const Switch = props => (
+    <label style={Object.assign({}, props.style)} >
+        <input
+            type="checkbox"
+            onChange={props.onChange}
+            checked={props.checked ? true : false}
+            name={props.name} />
+        <div ></div>
+    </label>
+);
 window.onload = function(){
     ReactDOM.render(
     <GameOfLife />,

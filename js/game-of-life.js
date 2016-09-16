@@ -1,5 +1,10 @@
 "use strict";
 
+var baseStyle = {
+    backgroundColor: "rgb(50, 50, 50)",
+    color: "rgb(240, 240, 240)"
+};
+
 //parent component, renders board and controls and connects the two
 var GameOfLife = React.createClass({
     displayName: "GameOfLife",
@@ -58,7 +63,8 @@ var GameOfLife = React.createClass({
     render: function render() {
         var style = {
             height: "100%",
-            width: "100%"
+            width: "100%",
+            backgroundColor: baseStyle.backgroundColor
         };
         return React.createElement(
             "div",
@@ -321,17 +327,17 @@ var Cell = React.createClass({
     displayName: "Cell",
 
     //lets Board know that cell has been clicked and gives it the cell index so it knows were the click was
-    handleClick: function handleClick() {
-        this.props.handleClick(this.props.index);
-    },
     render: function render() {
+        //cells uses  an external stylesheet for performance
         var style = {
             backgroundColor: this.props.status === "alive" ? "white" : "black",
             height: this.props.height,
             width: this.props.width,
-            display: "inline-block"
+            display: "inline-block",
+            boxSizing: "border-box",
+            border: "1px solid " + baseStyle.backgroundColor
         };
-        return React.createElement("div", { style: style, onClick: this.handleClick });
+        return React.createElement("div", { className: "cell " + "alive" ? "alive" : "dead", style: style, onClick: this.handleClick });
     }
 });
 var Controls = React.createClass({
@@ -342,27 +348,33 @@ var Controls = React.createClass({
         var hPad = "5px";
         var inputWrapStyle = {
             display: "inline-block",
-            backgroundColor: "rgb(240, 240, 240)",
-            padding: vPad + " 0px 0px " + hPad,
+            padding: vPad + " " + hPad,
             margin: "4px 6px",
             textAlign: "center"
         };
         var elementStyle = {
             verticalAlign: "middle",
-            margin: "0px " + hPad + " " + vPad + " 0px",
+            margin: vPad + " " + hPad,
             display: "inline-block"
         };
-        var buttonStyle = Object.assign({
-            fontSize: "14px"
-        }, elementStyle);
+        var buttonStyle = Object.assign({}, elementStyle, {
+            fontSize: "16px",
+            backgroundColor: baseStyle.color,
+            color: baseStyle.backgroundColor,
+            border: "none",
+            cursor: "pointer",
+            padding: "4px 9px"
+        });
         var textInputStyle = Object.assign({
             border: "none",
             fontSize: "inherit",
             padding: vPad + " " + hPad,
-            textAlign: "center"
+            textAlign: "center",
+            color: baseStyle.backgroundColor,
+            backgroundColor: baseStyle.color
         }, elementStyle);
         var sliderStyle = Object.assign({
-            margin: "0px " + hPad + " " + vPad + " 0px"
+            margin: vPad + " " + hPad
         }, elementStyle);
         return React.createElement(
             "div",
@@ -373,7 +385,8 @@ var Controls = React.createClass({
                     margin: "auto",
                     fontSize: "16px",
                     overflow: "auto",
-                    textAlign: "center"
+                    textAlign: "center",
+                    color: baseStyle.color
                 } },
             React.createElement(
                 "div",
@@ -429,8 +442,7 @@ var Controls = React.createClass({
                     },
                     "Pause"
                 ),
-                React.createElement("input", {
-                    type: "checkbox",
+                React.createElement(Switch, {
                     style: elementStyle,
                     onChange: this.props.handleChange,
                     checked: this.props.pause,
@@ -514,6 +526,18 @@ var Controls = React.createClass({
         );
     }
 });
+var Switch = function Switch(props) {
+    return React.createElement(
+        "label",
+        { style: Object.assign({}, props.style) },
+        React.createElement("input", {
+            type: "checkbox",
+            onChange: props.onChange,
+            checked: props.checked ? true : false,
+            name: props.name }),
+        React.createElement("div", null)
+    );
+};
 window.onload = function () {
     ReactDOM.render(React.createElement(GameOfLife, null), document.getElementById("container"));
 };

@@ -1,0 +1,9 @@
+{
+	"version": 3,
+	"file": "game-of-life.css",
+	"sources": [
+		"../src/game-of-life.scss"
+	],
+	"mappings": "AAAA,AAAA,IAAI,EAAE,AAAA,UAAU,CAAC;EACb,KAAK,EAAE,IAAK;EACZ,MAAM,EAAE,IAAK;EACb,MAAM,EAAE,GAAI;EACZ,SAAS,EAAE,GAAI;EACf,QAAQ,EAAE,MAAO,GACpB",
+	"names": []
+}
