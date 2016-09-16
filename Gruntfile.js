@@ -3,7 +3,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
         watch: {
-            files: ['src/*.js', 'src/*.scss'],
+            files: ['src/*.js'],
             tasks: ['babel']
         },
         babel: {
@@ -12,7 +12,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    "game-of-life.js": "src/game-of-life.js"
+                    "js/game-of-life.js": "src/game-of-life.js"
                 }
             }
         }
