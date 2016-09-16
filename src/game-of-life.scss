@@ -38,7 +38,36 @@ $colorDarkBase: rgb(50, 50, 50);
             }
         }
         #controls {
-
+            .controls-wrap {
+                display: inline-block;
+                padding: 3px 5px;
+                margin: 4px 6px;
+                >*{
+                    vertical-align: middle;
+                    margin: 3px 5px;
+                    display: inline-block;
+                }
+                .button {
+                    font-size: 16px;
+                    background-color: $colorLightBase;
+                    color: $colorDarkBase;
+                    border: none;
+                    cursor: pointer;
+                    padding: 4px 9px;
+                }
+                .text-input {
+                    border: none;
+                    font-size: inherit;
+                    padding: 3px 5px;
+                    text-align: right;
+                    background-color: $colorLightBase;
+                    color: $colorDarkBase;
+                    width: 2.5em;
+                }
+                .slider {
+                    margin: 3px 5px;
+                }
+            }
         }
     }
 }

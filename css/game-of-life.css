@@ -27,5 +27,30 @@ body {
           background-color: white; }
         #container #game-of-life #display .display-ratio-fixed .dead {
           background-color: black; }
+    #container #game-of-life #controls .controls-wrap {
+      display: inline-block;
+      padding: 3px 5px;
+      margin: 4px 6px; }
+      #container #game-of-life #controls .controls-wrap > * {
+        vertical-align: middle;
+        margin: 3px 5px;
+        display: inline-block; }
+      #container #game-of-life #controls .controls-wrap .button {
+        font-size: 16px;
+        background-color: #f0f0f0;
+        color: #323232;
+        border: none;
+        cursor: pointer;
+        padding: 4px 9px; }
+      #container #game-of-life #controls .controls-wrap .text-input {
+        border: none;
+        font-size: inherit;
+        padding: 3px 5px;
+        text-align: right;
+        background-color: #f0f0f0;
+        color: #323232;
+        width: 2.5em; }
+      #container #game-of-life #controls .controls-wrap .slider {
+        margin: 3px 5px; }
 
 /*# sourceMappingURL=game-of-life.css.map */

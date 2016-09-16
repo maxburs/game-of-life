@@ -9,9 +9,9 @@ var GameOfLife = React.createClass({
     //default board and control state
     getInitialState: function(){
         return {
-            height: 32,
-            width: 32,
-            interval: 50,
+            height: 25,
+            width: 25,
+            interval: 500,
             pause: false,
             boardKey: 0,
             percentLife: 0.3,
@@ -319,12 +319,6 @@ var Controls = React.createClass({
     render: function(){
         var vPad = "3px"
         var hPad = "5px"
-        var inputWrapStyle = {
-            display: "inline-block",
-            padding: vPad + " " + hPad,
-            margin: "4px 6px",
-            textAlign: "center"
-        };
         var elementStyle = {
             verticalAlign: "middle",
             margin: vPad + " " + hPad,
@@ -359,25 +353,24 @@ var Controls = React.createClass({
                             textAlign: "center",
                             color: baseStyle.color
                         }}>
-            <div style={inputWrapStyle}>
-                <label
-                    style={elementStyle}>Refresh Delay</label>
+            <div className="controls-wrap">
+                <label>Refresh Delay</label>
                 <input
                     onChange={this.props.handleChange}
-                    style={sliderStyle}
+                    className="slider"
                     type="range"
                     value={this.props.interval / 1000}
                     name="interval"
                     min="0.05"
                     max="1"
                     step="0.05"/>
-                <span style={elementStyle} >
+                <span>
                     {(this.props.interval / 1000).toFixed(2)} seconds
                     </span>
             </div>
-            <div style={inputWrapStyle} >
-                <span style={elementStyle} >Generations:</span>
-                <span style={Object.assign({}, elementStyle, {width: "3em", textAlign: "right", display: "inline-block"})}>{this.props.generations}</span>
+            <div className="controls-wrap" >
+                <span>Generations:</span>
+                <span style={{width: "3em"}}>{this.props.generations}</span>
                 <input
                     style={buttonStyle}
                     type="button"
@@ -385,72 +378,61 @@ var Controls = React.createClass({
                     name="resetGenerations"
                     value="reset" />
             </div>
-            <div style={inputWrapStyle}>
-                <label style={elementStyle}
-                    >Pause</label>
+            <div className="controls-wrap">
+                <label>Pause</label>
                 <Switch
-                    style={elementStyle}
                     onChange={this.props.handleChange}
                     checked={this.props.pause}
-                    name="pause"
-                    />
+                    name="pause" />
             </div>
-            <div style={inputWrapStyle}>
+            <div className="controls-wrap">
                 <input
-                    style={buttonStyle}
+                    className="button"
                     type="button"
                     onClick={this.props.handleChange}
                     name="clear"
-                    value="clear"
-                    />
+                    value="clear" />
             </div>
-            <div style={inputWrapStyle}>
+            <div className="controls-wrap">
                 <input
-                    style={buttonStyle}
+                    className="button"
                     type="button"
                     onClick={this.props.handleChange}
                     name="randomize"
-                    value="randomize"
-                    />
+                    value="randomize" />
                 <input
                     onChange={this.props.handleChange}
-                    style={sliderStyle}
+                    className="slider"
                     type="range"
                     defaultValue={this.props.percentLife}
                     name="percentLife"
                     min="0"
                     max="1"
-                    step="0.01"/>
+                    step="0.01" />
                 <span style={Object.assign({}, elementStyle, {textAlign: "right", width: "38px"})}>{(this.props.percentLife * 100).toFixed(0)}%</span>
             </div>
-            <div style={inputWrapStyle}>
-                <span
-                    style={elementStyle}>
+            <div className="controls-wrap">
+                <span>
                     Size:</span>
                 <input
-                    style={Object.assign({}, textInputStyle, {width: "2.5em"})}
                     type="number"
+                    className="text-input"
                     onChange={this.props.handleChange}
                     name="width"
-                    defaultValue={this.props.width}
-                    />
-                <span
-                    style={elementStyle}>
-                    x</span>
+                    defaultValue={this.props.width} />
+                <span>x</span>
                 <input
-                    style={Object.assign({}, textInputStyle, {width: "2.5em"})}
                     type="number"
+                    className="text-input"
                     onChange={this.props.handleChange}
                     name="height"
-                    defaultValue={this.props.height}
-                    />
+                    defaultValue={this.props.height} />
                 <input
-                    style={buttonStyle}
+                    className="button"
                     type="button"
                     onClick={this.props.handleChange}
                     name="applySize"
-                    value="Apply"
-                    />
+                    value="Apply" />
             </div>
         </div>
     }

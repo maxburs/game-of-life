@@ -13,9 +13,9 @@ var GameOfLife = React.createClass({
     //default board and control state
     getInitialState: function getInitialState() {
         return {
-            height: 32,
-            width: 32,
-            interval: 50,
+            height: 25,
+            width: 25,
+            interval: 500,
             pause: false,
             boardKey: 0,
             percentLife: 0.3,
@@ -327,12 +327,6 @@ var Controls = React.createClass({
     render: function render() {
         var vPad = "3px";
         var hPad = "5px";
-        var inputWrapStyle = {
-            display: "inline-block",
-            padding: vPad + " " + hPad,
-            margin: "4px 6px",
-            textAlign: "center"
-        };
         var elementStyle = {
             verticalAlign: "middle",
             margin: vPad + " " + hPad,
@@ -371,16 +365,15 @@ var Controls = React.createClass({
                 } },
             React.createElement(
                 "div",
-                { style: inputWrapStyle },
+                { className: "controls-wrap" },
                 React.createElement(
                     "label",
-                    {
-                        style: elementStyle },
+                    null,
                     "Refresh Delay"
                 ),
                 React.createElement("input", {
                     onChange: this.props.handleChange,
-                    style: sliderStyle,
+                    className: "slider",
                     type: "range",
                     value: this.props.interval / 1000,
                     name: "interval",
@@ -389,22 +382,22 @@ var Controls = React.createClass({
                     step: "0.05" }),
                 React.createElement(
                     "span",
-                    { style: elementStyle },
+                    null,
                     (this.props.interval / 1000).toFixed(2),
                     " seconds"
                 )
             ),
             React.createElement(
                 "div",
-                { style: inputWrapStyle },
+                { className: "controls-wrap" },
                 React.createElement(
                     "span",
-                    { style: elementStyle },
+                    null,
                     "Generations:"
                 ),
                 React.createElement(
                     "span",
-                    { style: Object.assign({}, elementStyle, { width: "3em", textAlign: "right", display: "inline-block" }) },
+                    { style: { width: "3em" } },
                     this.props.generations
                 ),
                 React.createElement("input", {
@@ -416,44 +409,39 @@ var Controls = React.createClass({
             ),
             React.createElement(
                 "div",
-                { style: inputWrapStyle },
+                { className: "controls-wrap" },
                 React.createElement(
                     "label",
-                    { style: elementStyle
-                    },
+                    null,
                     "Pause"
                 ),
                 React.createElement(Switch, {
-                    style: elementStyle,
                     onChange: this.props.handleChange,
                     checked: this.props.pause,
-                    name: "pause"
-                })
+                    name: "pause" })
             ),
             React.createElement(
                 "div",
-                { style: inputWrapStyle },
+                { className: "controls-wrap" },
                 React.createElement("input", {
-                    style: buttonStyle,
+                    className: "button",
                     type: "button",
                     onClick: this.props.handleChange,
                     name: "clear",
-                    value: "clear"
-                })
+                    value: "clear" })
             ),
             React.createElement(
                 "div",
-                { style: inputWrapStyle },
+                { className: "controls-wrap" },
                 React.createElement("input", {
-                    style: buttonStyle,
+                    className: "button",
                     type: "button",
                     onClick: this.props.handleChange,
                     name: "randomize",
-                    value: "randomize"
-                }),
+                    value: "randomize" }),
                 React.createElement("input", {
                     onChange: this.props.handleChange,
-                    style: sliderStyle,
+                    className: "slider",
                     type: "range",
                     defaultValue: this.props.percentLife,
                     name: "percentLife",
@@ -469,40 +457,35 @@ var Controls = React.createClass({
             ),
             React.createElement(
                 "div",
-                { style: inputWrapStyle },
+                { className: "controls-wrap" },
                 React.createElement(
                     "span",
-                    {
-                        style: elementStyle },
+                    null,
                     "Size:"
                 ),
                 React.createElement("input", {
-                    style: Object.assign({}, textInputStyle, { width: "2.5em" }),
                     type: "number",
+                    className: "text-input",
                     onChange: this.props.handleChange,
                     name: "width",
-                    defaultValue: this.props.width
-                }),
+                    defaultValue: this.props.width }),
                 React.createElement(
                     "span",
-                    {
-                        style: elementStyle },
+                    null,
                     "x"
                 ),
                 React.createElement("input", {
-                    style: Object.assign({}, textInputStyle, { width: "2.5em" }),
                     type: "number",
+                    className: "text-input",
                     onChange: this.props.handleChange,
                     name: "height",
-                    defaultValue: this.props.height
-                }),
+                    defaultValue: this.props.height }),
                 React.createElement("input", {
-                    style: buttonStyle,
+                    className: "button",
                     type: "button",
                     onClick: this.props.handleChange,
                     name: "applySize",
-                    value: "Apply"
-                })
+                    value: "Apply" })
             )
         );
     }
