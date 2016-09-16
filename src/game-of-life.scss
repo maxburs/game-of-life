@@ -1,7 +1,44 @@
-body, #container {
+body{
     width: 100%;
     height: 100%;
     margin: 0px;
+}
+
+$colorLightBase: rgb(240, 240, 240);
+$colorDarkBase: rgb(50, 50, 50);
+
+#container{
+    width: 100%;
+    height: 100%;
     font-size: 0px;
     overflow: hidden;
+    background-color: $colorDarkBase;
+    color: $colorLightBase;
+    #game-of-life {
+        height: 100%;
+        width: 100%;
+        #display {
+            height: 70%;
+            width: 100%;
+            .display-ratio-fixed{ 
+                height: 100%;
+                width: 100%;
+                //overflow: hidden;
+                >div {
+                    border: 1px solid $colorDarkBase;
+                    box-sizing: border-box;
+                    display: inline-block;
+                }
+                .alive {
+                    background-color: white;
+                }
+                .dead {
+                    background-color: black;
+                }
+            }
+        }
+        #controls {
+
+        }
+    }
 }

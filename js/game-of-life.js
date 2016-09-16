@@ -4,6 +4,7 @@ var baseStyle = {
     backgroundColor: "rgb(50, 50, 50)",
     color: "rgb(240, 240, 240)"
 };
+document.onload = console.log(document.styleSheets);
 
 //parent component, renders board and controls and connects the two
 var GameOfLife = React.createClass({
@@ -12,9 +13,9 @@ var GameOfLife = React.createClass({
     //default board and control state
     getInitialState: function getInitialState() {
         return {
-            height: 20,
-            width: 20,
-            interval: 500,
+            height: 32,
+            width: 32,
+            interval: 50,
             pause: false,
             boardKey: 0,
             percentLife: 0.3,
@@ -68,11 +69,10 @@ var GameOfLife = React.createClass({
         };
         return React.createElement(
             "div",
-            { style: style },
+            { id: "game-of-life" },
             React.createElement(
                 "div",
-                {
-                    style: { height: "70%", width: "100%" } },
+                { id: "display" },
                 React.createElement(FixedRatio, {
                     childComponents: React.createElement(Board, {
                         height: this.state.height,
@@ -126,15 +126,10 @@ var Board = React.createClass({
             status: initialCellValues,
             interval: interval,
             cellNeighbors: this.buildCellNeighbors(),
-            cellHeight: 100 / this.props.height + "%",
-            cellWidth: 100 / this.props.width + "%",
             cellCount: this.props.height * this.props.width,
             cellStyle: {
-                height: "100%",
-                width: "100%",
-                fontSize: "0px",
-                cursor: "pointer",
-                overflow: "hidden" } };
+                width: 100 / this.props.width + "%",
+                height: 100 / this.props.height + "%" } };
     },
     //runs when prop(s) are updated
     componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
@@ -243,20 +238,18 @@ var Board = React.createClass({
         window.clearInterval(this.state.interval);
     },
     render: function render() {
-        var cells = [];
-        for (var i = 0; i < this.state.cellCount; i++) {
-            cells.push(React.createElement(Cell, {
-                status: this.state.status[i] ? "alive" : "dead",
-                height: this.state.cellHeight,
-                width: this.state.cellWidth,
-                key: i,
-                index: i,
-                handleClick: this.editCell
-            }));
-        }
+        var _this = this;
+
+        var cells = this.state.status.map(function (alive, index) {
+            return React.createElement(Cell, {
+                status: alive,
+                style: _this.state.cellStyle,
+                key: index
+            });
+        });
         return React.createElement(
             "div",
-            { style: this.state.cellStyle },
+            { className: "display-ratio-fixed" },
             cells
         );
     }
@@ -323,23 +316,11 @@ var FixedRatio = React.createClass({
         );
     }
 });
-var Cell = React.createClass({
-    displayName: "Cell",
 
-    //lets Board know that cell has been clicked and gives it the cell index so it knows were the click was
-    render: function render() {
-        //cells uses  an external stylesheet for performance
-        var style = {
-            backgroundColor: this.props.status === "alive" ? "white" : "black",
-            height: this.props.height,
-            width: this.props.width,
-            display: "inline-block",
-            boxSizing: "border-box",
-            border: "1px solid " + baseStyle.backgroundColor
-        };
-        return React.createElement("div", { className: "cell " + "alive" ? "alive" : "dead", style: style, onClick: this.handleClick });
-    }
-});
+var Cell = function Cell(props) {
+    return React.createElement("div", { className: props.status ? "alive" : "dead",
+        style: props.style });
+};
 var Controls = React.createClass({
     displayName: "Controls",
 
@@ -378,7 +359,7 @@ var Controls = React.createClass({
         }, elementStyle);
         return React.createElement(
             "div",
-            { style: {
+            { id: "controls", style: {
                     position: "relative",
                     height: "30%",
                     maxWidth: "600px",

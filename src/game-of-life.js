@@ -2,15 +2,16 @@ var baseStyle = {
     backgroundColor: "rgb(50, 50, 50)",
     color: "rgb(240, 240, 240)",
 };
+document.onload = console.log(document.styleSheets);
 
 //parent component, renders board and controls and connects the two
 var GameOfLife = React.createClass({
     //default board and control state
     getInitialState: function(){
         return {
-            height: 20,
-            width: 20,
-            interval: 500,
+            height: 32,
+            width: 32,
+            interval: 50,
             pause: false,
             boardKey: 0,
             percentLife: 0.3,
@@ -70,9 +71,8 @@ var GameOfLife = React.createClass({
             width: "100%",
             backgroundColor: baseStyle.backgroundColor
         };
-        return <div style={style}>
-            <div
-                style={{height: "70%", width: "100%"}}>
+        return <div id="game-of-life">
+            <div id="display" >
                 <FixedRatio
                     childComponents={(
                         <Board
@@ -127,15 +127,10 @@ var Board = React.createClass({
             status: initialCellValues,
             interval: interval,
             cellNeighbors: this.buildCellNeighbors(),
-            cellHeight: 100/this.props.height + "%",
-            cellWidth: 100/this.props.width + "%",
             cellCount: this.props.height * this.props.width,
             cellStyle: {
-                height: "100%",
-                width: "100%",
-                fontSize: "0px",
-                cursor: "pointer",
-                overflow: "hidden" }};
+                width: 100/this.props.width + "%",
+                height: 100/this.props.height + "%",}};
     },
     //runs when prop(s) are updated
     componentWillReceiveProps: function(nextProps){
@@ -248,20 +243,14 @@ var Board = React.createClass({
         window.clearInterval(this.state.interval);
     },
     render: function(){
-        var cells = [];
-        for (var i = 0; i < this.state.cellCount; i++) {
-            cells.push(
-                <Cell
-                    status={this.state.status[i] ? "alive" : "dead"}
-                    height={this.state.cellHeight}
-                    width={this.state.cellWidth}
-                    key={i}
-                    index={i}
-                    handleClick={this.editCell}
-                />
-            )
-        }
-        return <div style={this.state.cellStyle}>{cells}</div>;
+        var cells = this.state.status.map((alive, index) => {
+            return <Cell
+                    status={alive}
+                    style={this.state.cellStyle}
+                    key={index}
+                />;
+        });
+        return <div className="display-ratio-fixed" >{cells}</div>;
     }
 });
 //Creates a div of a given ratio (width/hight) as large as it can in the given context and then renders whatever is passed as the prop "childComponents" and it's children". Has a 200ms resize timeout for performance.
@@ -321,21 +310,11 @@ var FixedRatio = React.createClass({
         </div>
     }
 });
-var Cell = React.createClass({
-    //lets Board know that cell has been clicked and gives it the cell index so it knows were the click was
-    render: function(){
-        //cells uses  an external stylesheet for performance
-        var style = {
-            backgroundColor: this.props.status === "alive" ? "white" : "black",
-            height: this.props.height,
-            width: this.props.width,
-            display: "inline-block",
-            boxSizing: "border-box",
-            border: "1px solid " + baseStyle.backgroundColor
-        };
-        return <div className={"cell " +  "alive" ? "alive" : "dead"} style={style} onClick={this.handleClick}/>
-    }
-});
+
+const Cell = props => (
+    <div className={(props.status ? "alive" : "dead")}
+        style={props.style} />
+);
 var Controls = React.createClass({
     render: function(){
         var vPad = "3px"
@@ -370,7 +349,7 @@ var Controls = React.createClass({
         var sliderStyle = Object.assign({
             margin: vPad + " " + hPad
         }, elementStyle);
-        return <div style={{
+        return <div id="controls" style={{
                             position: "relative",
                             height: "30%",
                             maxWidth: "600px",
