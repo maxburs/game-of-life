@@ -1,9 +1,5 @@
 "use strict";
 
-var baseStyle = {
-    backgroundColor: "rgb(50, 50, 50)",
-    color: "rgb(240, 240, 240)"
-};
 document.onload = console.log(document.styleSheets);
 
 //parent component, renders board and controls and connects the two
@@ -20,8 +16,8 @@ var GameOfLife = React.createClass({
             boardKey: 0,
             percentLife: 0.3,
             generations: 0,
-            nextHeight: 20,
-            nextWidth: 20
+            nextHeight: 25,
+            nextWidth: 25
         };
     },
     //handles changes from input
@@ -62,11 +58,6 @@ var GameOfLife = React.createClass({
         this.setState({ boardKey: this.state.boardKey + 1, generations: 0 });
     },
     render: function render() {
-        var style = {
-            height: "100%",
-            width: "100%",
-            backgroundColor: baseStyle.backgroundColor
-        };
         return React.createElement(
             "div",
             { id: "game-of-life" },
@@ -230,7 +221,9 @@ var Board = React.createClass({
         this.props.incrementGenereations();
         this.setState({ status: newStatus });
     },
-    editCell: function editCell(cell) {
+    handleClick: function handleClick(event) {
+        //gets index of cell that was clicked
+        var cell = Array.prototype.indexOf.call(event.target.parentNode.children, event.target);
         this.state.status[cell] = !this.state.status[cell];
         this.setState({ status: this.state.status });
     },
@@ -249,7 +242,7 @@ var Board = React.createClass({
         });
         return React.createElement(
             "div",
-            { className: "display-ratio-fixed" },
+            { className: "display-ratio-fixed", onClick: this.handleClick },
             cells
         );
     }
@@ -325,44 +318,9 @@ var Controls = React.createClass({
     displayName: "Controls",
 
     render: function render() {
-        var vPad = "3px";
-        var hPad = "5px";
-        var elementStyle = {
-            verticalAlign: "middle",
-            margin: vPad + " " + hPad,
-            display: "inline-block"
-        };
-        var buttonStyle = Object.assign({}, elementStyle, {
-            fontSize: "16px",
-            backgroundColor: baseStyle.color,
-            color: baseStyle.backgroundColor,
-            border: "none",
-            cursor: "pointer",
-            padding: "4px 9px"
-        });
-        var textInputStyle = Object.assign({
-            border: "none",
-            fontSize: "inherit",
-            padding: vPad + " " + hPad,
-            textAlign: "center",
-            color: baseStyle.backgroundColor,
-            backgroundColor: baseStyle.color
-        }, elementStyle);
-        var sliderStyle = Object.assign({
-            margin: vPad + " " + hPad
-        }, elementStyle);
         return React.createElement(
             "div",
-            { id: "controls", style: {
-                    position: "relative",
-                    height: "30%",
-                    maxWidth: "600px",
-                    margin: "auto",
-                    fontSize: "16px",
-                    overflow: "auto",
-                    textAlign: "center",
-                    color: baseStyle.color
-                } },
+            { id: "controls" },
             React.createElement(
                 "div",
                 { className: "controls-wrap" },
@@ -392,44 +350,18 @@ var Controls = React.createClass({
                 { className: "controls-wrap" },
                 React.createElement(
                     "span",
-                    null,
-                    "Generations:"
-                ),
-                React.createElement(
-                    "span",
-                    { style: { width: "3em" } },
-                    this.props.generations
+                    { className: "generations" },
+                    this.props.generations,
+                    " Generations"
                 ),
                 React.createElement("input", {
-                    style: buttonStyle,
+                    className: "button",
                     type: "button",
                     onClick: this.props.handleChange,
                     name: "resetGenerations",
                     value: "reset" })
             ),
-            React.createElement(
-                "div",
-                { className: "controls-wrap" },
-                React.createElement(
-                    "label",
-                    null,
-                    "Pause"
-                ),
-                React.createElement(Switch, {
-                    onChange: this.props.handleChange,
-                    checked: this.props.pause,
-                    name: "pause" })
-            ),
-            React.createElement(
-                "div",
-                { className: "controls-wrap" },
-                React.createElement("input", {
-                    className: "button",
-                    type: "button",
-                    onClick: this.props.handleChange,
-                    name: "clear",
-                    value: "clear" })
-            ),
+            React.createElement("br", null),
             React.createElement(
                 "div",
                 { className: "controls-wrap" },
@@ -450,11 +382,35 @@ var Controls = React.createClass({
                     step: "0.01" }),
                 React.createElement(
                     "span",
-                    { style: Object.assign({}, elementStyle, { textAlign: "right", width: "38px" }) },
+                    { style: { textAlign: "right", width: "38px" } },
                     (this.props.percentLife * 100).toFixed(0),
                     "%"
                 )
             ),
+            React.createElement(
+                "div",
+                { className: "controls-wrap" },
+                React.createElement("input", {
+                    className: "button",
+                    type: "button",
+                    onClick: this.props.handleChange,
+                    name: "clear",
+                    value: "clear" })
+            ),
+            React.createElement(
+                "div",
+                { className: "controls-wrap" },
+                React.createElement(
+                    "label",
+                    null,
+                    "Pause"
+                ),
+                React.createElement(Switch, {
+                    onChange: this.props.handleChange,
+                    checked: this.props.pause,
+                    name: "pause" })
+            ),
+            React.createElement("br", null),
             React.createElement(
                 "div",
                 { className: "controls-wrap" },
@@ -493,7 +449,7 @@ var Controls = React.createClass({
 var Switch = function Switch(props) {
     return React.createElement(
         "label",
-        { style: Object.assign({}, props.style) },
+        { className: "toggle" },
         React.createElement("input", {
             type: "checkbox",
             onChange: props.onChange,

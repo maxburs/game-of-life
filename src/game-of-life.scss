@@ -5,6 +5,7 @@ body{
 }
 
 $colorLightBase: rgb(240, 240, 240);
+$colorLightDarker: rgb(210, 210, 210);
 $colorDarkBase: rgb(50, 50, 50);
 
 #container{
@@ -14,6 +15,7 @@ $colorDarkBase: rgb(50, 50, 50);
     overflow: hidden;
     background-color: $colorDarkBase;
     color: $colorLightBase;
+    font-family: 'Inconsolata', monospace;
     #game-of-life {
         height: 100%;
         width: 100%;
@@ -28,6 +30,7 @@ $colorDarkBase: rgb(50, 50, 50);
                     border: 1px solid $colorDarkBase;
                     box-sizing: border-box;
                     display: inline-block;
+                    cursor: pointer;
                 }
                 .alive {
                     background-color: white;
@@ -38,22 +41,34 @@ $colorDarkBase: rgb(50, 50, 50);
             }
         }
         #controls {
+            position: relative;
+            height: 30%;
+            margin: auto;
+            font-size: 16px;
+            overflow: auto;
+            text-align: center;
             .controls-wrap {
                 display: inline-block;
                 padding: 3px 5px;
-                margin: 4px 6px;
+                margin: 16px 6px;
                 >*{
                     vertical-align: middle;
                     margin: 3px 5px;
                     display: inline-block;
                 }
+                .generations {
+                    width: 8em;
+                    text-align: right;
+                    overflow: visible;
+                }
                 .button {
-                    font-size: 16px;
+                    font-size: inherit;
                     background-color: $colorLightBase;
                     color: $colorDarkBase;
                     border: none;
                     cursor: pointer;
                     padding: 4px 9px;
+                    font-family: 'Inconsolata', monospace;
                 }
                 .text-input {
                     border: none;
@@ -63,9 +78,32 @@ $colorDarkBase: rgb(50, 50, 50);
                     background-color: $colorLightBase;
                     color: $colorDarkBase;
                     width: 2.5em;
+                    font-family: 'Inconsolata', monospace;
                 }
                 .slider {
                     margin: 3px 5px;
+                }
+                .toggle {
+                    width: 34px;
+                    height: 22px;
+                    background-color: $colorLightBase;
+                    position: relative;
+                    cursor: pointer;
+                    input {
+                        display: none;
+                    }
+                    div {
+                        position: absolute;
+                        left: 15px;
+                        right: 3px;
+                        top: 3px;
+                        bottom: 3px;
+                        background-color: $colorDarkBase;
+                    }
+                    input:checked + div{
+                        left: 3px;
+                        right: 15px;
+                    }
                 }
             }
         }

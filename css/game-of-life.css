@@ -9,7 +9,8 @@ body {
   font-size: 0px;
   overflow: hidden;
   background-color: #323232;
-  color: #f0f0f0; }
+  color: #f0f0f0;
+  font-family: 'Inconsolata', monospace; }
   #container #game-of-life {
     height: 100%;
     width: 100%; }
@@ -22,35 +23,67 @@ body {
         #container #game-of-life #display .display-ratio-fixed > div {
           border: 1px solid #323232;
           box-sizing: border-box;
-          display: inline-block; }
+          display: inline-block;
+          cursor: pointer; }
         #container #game-of-life #display .display-ratio-fixed .alive {
           background-color: white; }
         #container #game-of-life #display .display-ratio-fixed .dead {
           background-color: black; }
-    #container #game-of-life #controls .controls-wrap {
-      display: inline-block;
-      padding: 3px 5px;
-      margin: 4px 6px; }
-      #container #game-of-life #controls .controls-wrap > * {
-        vertical-align: middle;
-        margin: 3px 5px;
-        display: inline-block; }
-      #container #game-of-life #controls .controls-wrap .button {
-        font-size: 16px;
-        background-color: #f0f0f0;
-        color: #323232;
-        border: none;
-        cursor: pointer;
-        padding: 4px 9px; }
-      #container #game-of-life #controls .controls-wrap .text-input {
-        border: none;
-        font-size: inherit;
+    #container #game-of-life #controls {
+      position: relative;
+      height: 30%;
+      margin: auto;
+      font-size: 16px;
+      overflow: auto;
+      text-align: center; }
+      #container #game-of-life #controls .controls-wrap {
+        display: inline-block;
         padding: 3px 5px;
-        text-align: right;
-        background-color: #f0f0f0;
-        color: #323232;
-        width: 2.5em; }
-      #container #game-of-life #controls .controls-wrap .slider {
-        margin: 3px 5px; }
+        margin: 16px 6px; }
+        #container #game-of-life #controls .controls-wrap > * {
+          vertical-align: middle;
+          margin: 3px 5px;
+          display: inline-block; }
+        #container #game-of-life #controls .controls-wrap .generations {
+          width: 8em;
+          text-align: right;
+          overflow: visible; }
+        #container #game-of-life #controls .controls-wrap .button {
+          font-size: inherit;
+          background-color: #f0f0f0;
+          color: #323232;
+          border: none;
+          cursor: pointer;
+          padding: 4px 9px;
+          font-family: 'Inconsolata', monospace; }
+        #container #game-of-life #controls .controls-wrap .text-input {
+          border: none;
+          font-size: inherit;
+          padding: 3px 5px;
+          text-align: right;
+          background-color: #f0f0f0;
+          color: #323232;
+          width: 2.5em;
+          font-family: 'Inconsolata', monospace; }
+        #container #game-of-life #controls .controls-wrap .slider {
+          margin: 3px 5px; }
+        #container #game-of-life #controls .controls-wrap .toggle {
+          width: 34px;
+          height: 22px;
+          background-color: #f0f0f0;
+          position: relative;
+          cursor: pointer; }
+          #container #game-of-life #controls .controls-wrap .toggle input {
+            display: none; }
+          #container #game-of-life #controls .controls-wrap .toggle div {
+            position: absolute;
+            left: 15px;
+            right: 3px;
+            top: 3px;
+            bottom: 3px;
+            background-color: #323232; }
+          #container #game-of-life #controls .controls-wrap .toggle input:checked + div {
+            left: 3px;
+            right: 15px; }
 
 /*# sourceMappingURL=game-of-life.css.map */

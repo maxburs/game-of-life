@@ -1,7 +1,3 @@
-var baseStyle = {
-    backgroundColor: "rgb(50, 50, 50)",
-    color: "rgb(240, 240, 240)",
-};
 document.onload = console.log(document.styleSheets);
 
 //parent component, renders board and controls and connects the two
@@ -16,8 +12,8 @@ var GameOfLife = React.createClass({
             boardKey: 0,
             percentLife: 0.3,
             generations: 0,
-            nextHeight: 20,
-            nextWidth: 20
+            nextHeight: 25,
+            nextWidth: 25
         };
     },
     //handles changes from input
@@ -66,11 +62,6 @@ var GameOfLife = React.createClass({
         this.setState({boardKey: this.state.boardKey + 1, generations: 0});
     },
     render: function(){
-        var style = {
-            height: "100%",
-            width: "100%",
-            backgroundColor: baseStyle.backgroundColor
-        };
         return <div id="game-of-life">
             <div id="display" >
                 <FixedRatio
@@ -235,7 +226,9 @@ var Board = React.createClass({
         this.props.incrementGenereations();
         this.setState({status: newStatus});
     },
-    editCell: function(cell){
+    handleClick: function(event){
+        //gets index of cell that was clicked
+        var cell = Array.prototype.indexOf.call(event.target.parentNode.children, event.target);
         this.state.status[cell] = !this.state.status[cell];
         this.setState({status: this.state.status});
     },
@@ -250,7 +243,7 @@ var Board = React.createClass({
                     key={index}
                 />;
         });
-        return <div className="display-ratio-fixed" >{cells}</div>;
+        return <div className="display-ratio-fixed" onClick={this.handleClick} >{cells}</div>;
     }
 });
 //Creates a div of a given ratio (width/hight) as large as it can in the given context and then renders whatever is passed as the prop "childComponents" and it's children". Has a 200ms resize timeout for performance.
@@ -317,42 +310,7 @@ const Cell = props => (
 );
 var Controls = React.createClass({
     render: function(){
-        var vPad = "3px"
-        var hPad = "5px"
-        var elementStyle = {
-            verticalAlign: "middle",
-            margin: vPad + " " + hPad,
-            display: "inline-block"
-        };
-        var buttonStyle = Object.assign({}, elementStyle, {
-            fontSize: "16px",
-            backgroundColor: baseStyle.color,
-            color: baseStyle.backgroundColor,
-            border: "none",
-            cursor: "pointer",
-            padding: "4px 9px"
-        });
-        var textInputStyle = Object.assign({
-            border: "none",
-            fontSize: "inherit",
-            padding: vPad + " " + hPad,
-            textAlign: "center",
-            color: baseStyle.backgroundColor,
-            backgroundColor: baseStyle.color
-        }, elementStyle);
-        var sliderStyle = Object.assign({
-            margin: vPad + " " + hPad
-        }, elementStyle);
-        return <div id="controls" style={{
-                            position: "relative",
-                            height: "30%",
-                            maxWidth: "600px",
-                            margin: "auto",
-                            fontSize: "16px",
-                            overflow: "auto",
-                            textAlign: "center",
-                            color: baseStyle.color
-                        }}>
+        return <div id="controls" >
             <div className="controls-wrap">
                 <label>Refresh Delay</label>
                 <input
@@ -369,30 +327,15 @@ var Controls = React.createClass({
                     </span>
             </div>
             <div className="controls-wrap" >
-                <span>Generations:</span>
-                <span style={{width: "3em"}}>{this.props.generations}</span>
+                <span className="generations" >{this.props.generations} Generations</span>
                 <input
-                    style={buttonStyle}
+                    className="button"
                     type="button"
                     onClick={this.props.handleChange}
                     name="resetGenerations"
                     value="reset" />
             </div>
-            <div className="controls-wrap">
-                <label>Pause</label>
-                <Switch
-                    onChange={this.props.handleChange}
-                    checked={this.props.pause}
-                    name="pause" />
-            </div>
-            <div className="controls-wrap">
-                <input
-                    className="button"
-                    type="button"
-                    onClick={this.props.handleChange}
-                    name="clear"
-                    value="clear" />
-            </div>
+            <br />
             <div className="controls-wrap">
                 <input
                     className="button"
@@ -409,8 +352,24 @@ var Controls = React.createClass({
                     min="0"
                     max="1"
                     step="0.01" />
-                <span style={Object.assign({}, elementStyle, {textAlign: "right", width: "38px"})}>{(this.props.percentLife * 100).toFixed(0)}%</span>
+                <span style={{textAlign: "right", width: "38px"}}>{(this.props.percentLife * 100).toFixed(0)}%</span>
             </div>
+            <div className="controls-wrap">
+                <input
+                    className="button"
+                    type="button"
+                    onClick={this.props.handleChange}
+                    name="clear"
+                    value="clear" />
+            </div>
+            <div className="controls-wrap">
+                <label>Pause</label>
+                <Switch
+                    onChange={this.props.handleChange}
+                    checked={this.props.pause}
+                    name="pause" />
+            </div>
+            <br />
             <div className="controls-wrap">
                 <span>
                     Size:</span>
@@ -438,7 +397,7 @@ var Controls = React.createClass({
     }
 });
 const Switch = props => (
-    <label style={Object.assign({}, props.style)} >
+    <label className="toggle" >
         <input
             type="checkbox"
             onChange={props.onChange}
@@ -449,7 +408,6 @@ const Switch = props => (
 );
 window.onload = function(){
     ReactDOM.render(
-    <GameOfLife />,
-    document.getElementById("container")
-    );
+        <GameOfLife />,
+        document.getElementById("container") );
 };
