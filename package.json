@@ -10,14 +10,7 @@
     "grunt-contrib-watch": "^1.0.0",
     "grunt-sass": "^1.2.1"
   },
-  "babel": {
-    "presets": [
-      "react",
-      "es2015"
-    ]
-  },
   "description": "Build entirely inside of React classes, for better or for worse.",
-  "main": "index.html",
   "dependencies": {
     "babel-preset-es2015": "^6.14.0",
     "babel-preset-react": "^6.11.1",
